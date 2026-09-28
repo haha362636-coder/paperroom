@@ -1,0 +1,14 @@
+export function setupStickerStudio({getState,onApply,onDelete}){
+ const $=s=>document.querySelector(s),canvas=$('#sticker-canvas'),ctx=canvas.getContext('2d');let drawing=false,changed=false,editing=null,history=[],loadToken=0;
+ const base=()=>{ctx.clearRect(0,0,512,512);ctx.fillStyle='#f3f0e9';ctx.beginPath();ctx.roundRect(18,18,476,476,86);ctx.fill();};
+ const remember=()=>{history.push(ctx.getImageData(0,0,512,512));if(history.length>15)history.shift();};
+ const position=e=>{const r=canvas.getBoundingClientRect();return[(e.clientX-r.left)*512/r.width,(e.clientY-r.top)*512/r.height];};
+ canvas.onpointerdown=e=>{remember();drawing=true;changed=true;canvas.setPointerCapture(e.pointerId);ctx.save();ctx.beginPath();ctx.roundRect(18,18,476,476,86);ctx.clip();ctx.strokeStyle=$('#sticker-ink').value;ctx.fillStyle=ctx.strokeStyle;ctx.lineWidth=Number($('#sticker-size').value);ctx.lineCap='round';ctx.lineJoin='round';const [x,y]=position(e);ctx.beginPath();ctx.arc(x,y,ctx.lineWidth/2,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.moveTo(x,y);};
+ canvas.onpointermove=e=>{if(drawing){ctx.lineTo(...position(e));ctx.stroke();}};canvas.onpointerup=canvas.onpointercancel=()=>{if(drawing)ctx.restore();drawing=false;};
+ $('#sticker-undo').onclick=()=>{const last=history.pop();if(last)ctx.putImageData(last,0,0);};$('#sticker-clear').onclick=()=>{remember();base();changed=true;};
+ $('#sticker-upload').onchange=e=>{const file=e.target.files[0];if(!file)return;if(file.size>8e6){e.target.setCustomValidity('请选择小于 8 MB 的图片');e.target.reportValidity();return;}e.target.setCustomValidity('');const token=++loadToken,url=URL.createObjectURL(file),img=new Image();img.onload=()=>{if(token===loadToken){remember();base();const scale=Math.min(420/img.width,420/img.height);ctx.drawImage(img,(512-img.width*scale)/2,(512-img.height*scale)/2,img.width*scale,img.height*scale);changed=true;}URL.revokeObjectURL(url);};img.onerror=()=>URL.revokeObjectURL(url);img.src=url;};
+ $('#sticker-form').onsubmit=e=>{e.preventDefault();onApply({id:editing?.id,image:canvas.toDataURL('image/png'),folderId:$('#sticker-target').value||null});$('#sticker-dialog').close();};
+ $('#delete-sticker').onclick=()=>{if(editing){onDelete(editing.id);$('#sticker-dialog').close();}};
+ $('#sticker-dialog').addEventListener('close',()=>{loadToken++;if(drawing)ctx.restore();drawing=false;});
+ return function openSticker(folderId=null,item=null){editing=item;changed=!!item;history=[];base();$('#sticker-target').replaceChildren(new Option('白板',''),...getState().folders.map(f=>new Option(f.name,f.id)));$('#sticker-target').value=item?.folderId??folderId??'';$('#delete-sticker').hidden=!item;$('#sticker-upload').value='';const token=++loadToken;if(item?.image){const img=new Image();img.onload=()=>{if(token===loadToken){ctx.clearRect(0,0,512,512);ctx.drawImage(img,0,0,512,512);}};img.src=item.image;}$('#sticker-dialog').showModal();};
+}

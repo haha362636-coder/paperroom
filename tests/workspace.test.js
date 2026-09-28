@@ -1,0 +1,8 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {loadWorkspace,persistWorkspace,addBoard,WORKSPACE_KEY} from '../dist/workspace.js';
+import {initialState,STORAGE_KEY} from '../dist/state.js';
+const storage=()=>{const data=new Map();return {getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)};};
+test('legacy notes migrate without changing the original snapshot',()=>{const s=storage(),old=initialState();old.notes[0].body='保留我的内容';s.setItem(STORAGE_KEY,JSON.stringify(old));const {workspace}=loadWorkspace(s);assert.equal(workspace.boards[0].state.notes[0].body,'保留我的内容');persistWorkspace(s,workspace);assert.deepEqual(JSON.parse(s.getItem(STORAGE_KEY)),old);});
+test('new boards are isolated and active selection survives reopening',()=>{const s=storage();let {workspace}=loadWorkspace(s);workspace=addBoard(workspace,'项目','second');assert.equal(workspace.boards[1].state.notes.length,0);workspace.boards[1].state.notes.push({...initialState().notes[0],body:'第二块白板'});persistWorkspace(s,workspace);const reopened=loadWorkspace(s).workspace;assert.equal(reopened.activeId,'second');assert.equal(reopened.boards[1].state.notes[0].body,'第二块白板');assert.notEqual(reopened.boards[0].state.notes[0].body,'第二块白板');});
+test('workspace recovers previous valid snapshot after corruption',()=>{const s=storage();let {workspace}=loadWorkspace(s);persistWorkspace(s,workspace);workspace=addBoard(workspace,'新白板','second');persistWorkspace(s,workspace);s.setItem(WORKSPACE_KEY,'broken');assert.equal(loadWorkspace(s).recovered,true);assert.equal(loadWorkspace(s).workspace.boards[0].id,'original');});

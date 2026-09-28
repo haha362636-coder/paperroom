@@ -1,0 +1,44 @@
+# ---- 依赖与系统文件 ----
+node_modules/
+.DS_Store
+
+# ---- 构建产物 ----
+desktop/build/
+desktop/dmg-stage/
+releases/
+*.dmg
+
+# ---- 图标生成物（由 desktop/make-icon.sh 重新生成）----
+desktop/assets/Paperroom.iconset/
+desktop/assets/Paperroom.icns
+desktop/assets/paperroom-icon-1024.png
+
+# ---- 本机私有内容：绝不可公开 ----
+# 项目记忆（含服务器信息、密钥、笔记数据路径）
+.workbuddy-ai/
+# 本机 AI 工具的托管配置（含项目 ID）
+.openai/
+.codex/
+# 笔记数据备份与旧应用包
+desktop/backup-app-*/
+# 部署脚本（含服务器 IP 与 SSH 端口）
+desktop/publish-release.sh
+desktop/publish-icon.sh
+
+# ---- 介绍网站：本次开源范围之外 ----
+# 内含站点部署说明、表单密钥与个人邮箱
+intro-demo/
+
+# ---- 宣传片素材与制作工程：体积过大，不入库（成片作为 Release 附件发布）----
+video-production/
+promo/
+
+# ---- 本机发布教程（含个人操作步骤）----
+开源发布教程.md
+
+# ---- 临时与备份文件 ----
+*.bak
+*.bak-*
+*.bak[0-9]*
+*~
+*.zip
