@@ -48,7 +48,7 @@ final class LocalServer {
     }
 }
 
-final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKDownloadDelegate, WKScriptMessageHandler {
+final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKUIDelegate, WKDownloadDelegate, WKScriptMessageHandler {
     var window: NSWindow!
     var web: WKWebView!
     var server: LocalServer!
@@ -61,7 +61,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
         NSApp.mainMenu = menu
         let config = WKWebViewConfiguration(); config.websiteDataStore = .default(); config.preferences.javaScriptCanOpenWindowsAutomatically = false
         config.userContentController.add(self, name: "exportBackup")
-        web = WKWebView(frame: .zero, configuration: config); web.navigationDelegate = self
+        web = WKWebView(frame: .zero, configuration: config); web.navigationDelegate = self; web.uiDelegate = self
         window = NSWindow(contentRect: NSRect(x:0,y:0,width:1280,height:820),styleMask:[.titled,.closable,.miniaturizable,.resizable],backing:.buffered,defer:false)
         window.title="纸间 Paperroom";window.minSize=NSSize(width:700,height:520);window.contentView=web;window.center();window.makeKeyAndOrderFront(nil);NSApp.activate(ignoringOtherApps:true)
         server=LocalServer(root:Bundle.main.resourceURL!.appendingPathComponent("web"))
@@ -77,7 +77,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
             catch { let alert = NSAlert(); alert.messageText = "备份保存失败"; alert.informativeText = error.localizedDescription; alert.runModal() }
         }
     }
-    @objc func about(){let a=NSAlert();a.messageText="纸间 Paperroom 1.0.0 RC1";a.informativeText="Apple 芯片版\n笔记仅保存在本机。卸载或清理应用数据前，请先导出备份。";a.runModal()}
+    @objc func about(){let a=NSAlert();a.messageText="纸间 Paperroom 1.1.0";a.informativeText="Apple 芯片版\n笔记仅保存在本机。卸载或清理应用数据前，请先导出备份。";a.runModal()}
+    // Cassette recording: only the bundled page may use the microphone; macOS still asks the user once.
+    func webView(_ webView: WKWebView, requestMediaCapturePermissionFor origin: WKSecurityOrigin, initiatedByFrame frame: WKFrameInfo, type: WKMediaCaptureType, decisionHandler: @escaping (WKPermissionDecision) -> Void) {
+        decisionHandler(frame.isMainFrame && origin.host == "127.0.0.1" && origin.port == 49173 && type == .microphone ? .grant : .deny)
+    }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender:NSApplication)->Bool { true }
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if navigationAction.shouldPerformDownload { decisionHandler(.download); return }

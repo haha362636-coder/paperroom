@@ -16,7 +16,8 @@ export function persistBoard(storage,state){
  return true;
 }
 export function upsertDraft(state,draft){
- const note={...draft,title:draft.title.trim()||draft.body.trim().split('\n')[0].slice(0,32)||'无标题笔记'};
+ const now=Date.now();
+ const note={...draft,title:draft.title.trim()||draft.body.trim().split('\n')[0].slice(0,32)||'无标题笔记',createdAt:draft.createdAt??now,updatedAt:now};
  const index=state.notes.findIndex(n=>n.id===note.id);
  if(index<0)state.notes.push(note);else state.notes[index]=note;
  return note;

@@ -10,6 +10,8 @@ xcrun swiftc desktop/main.swift -O -target arm64-apple-macos14.0 -module-cache-p
 codesign --force --deep --sign - desktop/build/Paperroom.app
 ```
 
+麦克风：Info.plist 声明 NSMicrophoneUsageDescription，WKUIDelegate 只给 127.0.0.1:49173 主框架授予麦克风权限，用于录音磁带。
+
 本次是 ad-hoc 签名，未经 Apple 公证；不等于 Developer ID 签名。首次打开可由用户按安装包内的 Apple 官方步骤，为此应用设置例外。DMG 位于 ../releases。
 
 ## 应用图标（2026-09-26）

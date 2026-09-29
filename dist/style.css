@@ -10,3 +10,52 @@
 
 /* Full-window rendering prevents the swinging badge from being clipped. */
 #lanyard{inset:0;width:100%;height:100%;pointer-events:none;filter:none}#lanyard canvas{pointer-events:none}.folder-open #lanyard{opacity:.25}
+
+/* Note details. */
+#note-meta{font-size:11.5px;color:#8c8f9a;padding:2px 0 10px;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+#tapes{border-top:1px solid #ffffff10;margin-top:12px;padding-top:12px}
+
+/* Cassette recorder, laid out in millimetres of a real Compact Cassette. */
+.tape-tool svg{width:27px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linejoin:round;vertical-align:middle}
+#tape-dialog{width:min(560px,calc(100vw - 30px))}
+.recorder{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;padding:22px 18px;border-radius:18px;background:linear-gradient(180deg,#34353b,#23242a);box-shadow:inset 0 1px 0 #ffffff14,inset 0 -10px 30px #0004}
+.mini-cassette{--w:264px;--mm:calc(var(--w) / 100.4);--shell:#e7e0cf;position:relative;width:var(--w);aspect-ratio:100.4/63.8;border-radius:calc(3.4*var(--mm));background:linear-gradient(160deg,#ffffff38,#ffffff00 38%,#0000 62%,#0000002a),var(--shell);box-shadow:0 16px 26px #0008,0 2px 4px #0006,inset 0 1px 0 #ffffff66,inset 0 -2px 0 #00000030,inset 0 0 0 calc(.35*var(--mm)) #00000014;transition:background-color .3s}
+.mc-label{position:absolute;left:calc(7.7*var(--mm));top:calc(3.3*var(--mm));width:calc(85*var(--mm));height:calc(37.6*var(--mm));border-radius:calc(1.5*var(--mm));background:linear-gradient(#f4efe2 0 85%,color-mix(in srgb,var(--shell) 45%,#6b2d22) 85%);box-shadow:0 0 0 .5px #0002}
+.mc-label b{position:absolute;left:calc(1.6*var(--mm));top:calc(1.6*var(--mm));width:calc(5*var(--mm));height:calc(5*var(--mm));border:1.5px solid #222;border-radius:50%;display:grid;place-items:center;font:700 calc(3.4*var(--mm)) Georgia,serif;color:#222}
+.mc-label span{position:absolute;left:calc(9*var(--mm));right:calc(3*var(--mm));top:calc(1.4*var(--mm));height:calc(6*var(--mm));border-bottom:1px solid #2a2a3040;font:calc(4.6*var(--mm))/calc(6*var(--mm)) "Kaiti SC","STKaiti","KaiTi","Bradley Hand",cursive;color:#1d3f86;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mc-window{position:absolute;left:calc(19.2*var(--mm));top:calc(17.4*var(--mm));width:calc(62*var(--mm));height:calc(18*var(--mm));border-radius:calc(3.2*var(--mm));overflow:hidden;background:#cfcac0;box-shadow:inset 0 2px 4px #0007,0 0 0 1.5px #00000026}
+.mc-window::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,#ffffff00 30%,#ffffff40 42%,#ffffff00 50%,#ffffff18 60%,#fff0 64%),repeating-linear-gradient(90deg,transparent 0 calc(2*var(--mm)),#ffffff50 0 calc(2*var(--mm) + 1px)) 0 100%/100% calc(1.4*var(--mm)) no-repeat;pointer-events:none}
+.mc-pack,.mc-reel{position:absolute;top:50%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%)}
+.mc-pack{width:calc(48.4*var(--mm)*var(--left,1));background:repeating-radial-gradient(circle,#3a271c 0 1px,#2a1b13 1px 2px);box-shadow:inset 0 0 0 1px #0005;transition:width .25s linear}
+.mc-pack.l{left:calc(9.75*var(--mm))}.mc-pack.r{left:calc(52.25*var(--mm));width:calc(48.4*var(--mm)*var(--right,.446))}
+.mc-reel{width:calc(21.4*var(--mm));background:radial-gradient(circle,#cfcac0 0 calc(3.3*var(--mm)),transparent 0),radial-gradient(circle,transparent 0 calc(5.1*var(--mm)),#f1eee6 0),repeating-conic-gradient(#f1eee6 0 22deg,#cfcac0 0 60deg);box-shadow:0 1px 2px #0005}
+.mc-reel::after{content:'';position:absolute;left:50%;top:calc(.9*var(--mm));width:calc(2*var(--mm));height:calc(1.1*var(--mm));margin-left:calc(-1*var(--mm));background:#9a958b;border-radius:1px}
+.mc-reel.l{left:calc(9.75*var(--mm))}.mc-reel.r{left:calc(52.25*var(--mm))}
+.recording .mc-reel,.playing .mc-reel{animation:reel 2.1s linear infinite}.recording .mc-reel.r,.playing .mc-reel.r{animation-duration:2.7s}
+@keyframes reel{to{transform:translate(-50%,-50%) rotate(-360deg)}}
+.mc-trap{position:absolute;bottom:0;left:calc(13.7*var(--mm));width:calc(73*var(--mm));height:calc(12.7*var(--mm));clip-path:polygon(0 100%,100% 100%,90.4% 0,9.6% 0);background:linear-gradient(#ffffff30,#ffffff00 40%,#00000018),var(--shell)}
+.mc-trap i{position:absolute;top:50%;width:calc(4.5*var(--mm));aspect-ratio:1;border-radius:50%;background:#070708;transform:translate(-50%,-50%);box-shadow:inset 0 1px 2px #000}.mc-trap i:first-child{left:26.7%}.mc-trap i:last-child{left:73.3%}
+.mc-screw{position:absolute;width:calc(4.2*var(--mm));aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:linear-gradient(90deg,transparent 45%,#2229 45% 55%,transparent 55%),linear-gradient(transparent 45%,#2229 45% 55%,transparent 55%),radial-gradient(circle at 35% 30%,#f2f3f5,#9a9ca3 70%);box-shadow:0 .5px 1px #0006}
+.mc-screw.a{left:calc(4.6*var(--mm));top:calc(4.3*var(--mm))}.mc-screw.b{left:calc(95.8*var(--mm));top:calc(4.3*var(--mm))}.mc-screw.c{left:calc(4.6*var(--mm));top:calc(59.3*var(--mm))}.mc-screw.d{left:calc(95.8*var(--mm));top:calc(59.3*var(--mm))}.mc-screw.e{left:calc(50.2*var(--mm));top:calc(47.1*var(--mm))}
+#vu-meter{width:150px;height:65px;border-radius:6px;border:3px solid #16171a;box-shadow:0 0 0 1px #ffffff14,inset 0 2px 6px #0006}
+#tape-time{text-align:center;font:500 13px ui-monospace,Menlo,monospace;color:#b9bbc5;margin:16px 0 10px;min-height:18px}
+.tape-controls{display:flex;justify-content:center;align-items:center;gap:12px;margin-bottom:10px}
+.rec-button{display:flex;align-items:center;gap:9px;border:0;border-radius:999px;padding:11px 22px;background:linear-gradient(#3a3b42,#2a2b31);color:#ecebef;box-shadow:0 3px 10px #0005,inset 0 1px 0 #ffffff17;font-size:14px}
+.rec-button::before{content:'';width:12px;height:12px;border-radius:50%;background:#e0483b;box-shadow:0 0 10px #e0483b99}.rec-button.stop::before{border-radius:2px;background:#e6e3dc;box-shadow:none}
+.is-recording .recorder{box-shadow:inset 0 1px 0 #ffffff14,inset 0 0 0 1px #e0483b44}.is-recording #tape-time{color:#f08a7e}.is-recording #tape-time::before{content:'● ';animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+#tape-preview{width:40px;height:40px;font-size:15px}
+#tape-title{width:100%;background:none;color:#f0f0f6;border:0;border-bottom:1px solid #ffffff17;font:22px "Kaiti SC","STKaiti","KaiTi",inherit;padding:10px 0 12px;outline:none}
+.shell-row{display:flex;align-items:center;gap:10px}#tape-shells{display:flex;gap:8px}
+#tape-shells label{width:22px;height:22px;border-radius:50%;background:var(--shell);box-shadow:inset 0 1px 0 #fff6,0 1px 3px #0006;cursor:pointer;position:relative}
+#tape-shells label:has(input:checked){outline:2px solid #e6dfd1;outline-offset:2px}#tape-shells label:has(input:focus-visible){outline:2px solid #d4c4a6;outline-offset:4px}
+#tape-shells input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+#delete-tape{border:0;background:none;color:#b3a8ad;font-size:12px}#tape-form>.primary{width:100%}
+
+/* Floating tape deck. */
+#tape-bar{position:absolute;left:50%;bottom:112px;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:7px 14px 7px 8px;background:linear-gradient(150deg,#2c2d33ee,#1d1e23f2);border:1px solid #ffffff17;border-radius:36px;box-shadow:0 14px 40px #0006;backdrop-filter:blur(24px);z-index:6}
+#tape-bar .icon-button{border:0;background:none;width:32px;height:32px;font-size:18px}#tape-bar .play{background:#e8e3da;color:#23242a;font-size:13px}
+#tape-bar-title{font:15px "Kaiti SC","STKaiti","KaiTi",inherit;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#e6e3dc}
+#tape-seek{width:170px;accent-color:#d8cfbe}#tape-bar-time{white-space:nowrap;font:500 11.5px ui-monospace,Menlo,monospace;color:#9a9ca6;font-variant-numeric:tabular-nums}
+.folder-open #tape-bar{opacity:0;pointer-events:none}
+@media(max-width:760px){#tape-bar{bottom:132px;gap:3px;max-width:95vw}#tape-seek{width:80px}#tape-bar-title{max-width:70px}.mini-cassette{--w:220px}.recorder{padding:16px 10px;gap:12px}}

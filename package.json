@@ -1,11 +1,11 @@
 {
   "name": "paperroom-model",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "python3 -m http.server 4173 --directory dist",
-    "check": "node --check dist/scene.js && node --check dist/app.js",
+    "check": "node --check dist/scene.js && node --check dist/app.js && node --check dist/cassette.js && node --check dist/tape-recorder.js",
     "test": "node --test tests/*.test.js",
     "build:mac": "bash desktop/build-release.sh"
   },
