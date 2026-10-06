@@ -42,3 +42,8 @@ promo/
 *.bak[0-9]*
 *~
 *.zip
+
+# ---- Windows 版构建生成物（由 windows/build/make-icon.py 与测试重新生成）----
+windows/build/icon.ico
+windows/build/icon-preview.png
+windows/build/smoke-test.png

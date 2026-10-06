@@ -6,14 +6,17 @@
 
 ![纸间的皮面白板](docs/screenshot.jpg)
 
-同一套代码有两个形态：浏览器里直接打开的网页版（`dist/`），以及用 Swift + WKWebView 包起来的 Apple Silicon 桌面版（`desktop/`）。
+同一套代码有三个形态：浏览器里直接打开的网页版（`dist/`）、用 Swift + WKWebView 包起来的 Apple Silicon 桌面版（`desktop/`），以及用 Electron 包起来的 Windows 桌面版（`windows/`）。
 
 ## 下载与使用
 
 - **网页版**：打开上面的「在线体验」即可，无需安装。需要支持 WebGL 的浏览器，笔记保存在当前浏览器里。
 - **Mac 桌面版**：到 [Releases](../../releases/latest) 下载 `Paperroom-1.1.0-mac-arm64.dmg`，打开后把 Paperroom 拖进「应用程序」。仅支持 Apple Silicon、macOS 14 及以上。
   - 安装包为 ad-hoc 签名，未经 Apple 公证。第一次打开被系统拦下时，到「系统设置 → 隐私与安全性」底部点「仍要打开」。
-- 两个版本的数据互相独立，都不跨设备同步。换设备前请用右上角 ↗ 导出 JSON 备份。
+- **Windows 桌面版**：到 [Releases](../../releases/latest) 下载 `Paperroom-1.1.0-windows-x64-setup.exe`，双击安装。支持 Windows 10 / 11（64 位）。
+  - 安装包没有代码签名。首次运行若出现「Windows 已保护你的电脑」，点「更多信息 → 仍要运行」。
+  - 笔记保存在 `%APPDATA%\Paperroom`，卸载或重装都不会删除。
+- 各个版本的数据互相独立，都不跨设备同步。换设备前请用右上角 ↗ 导出 JSON 备份。
 
 ![手绘贴纸](docs/screenshot-sticker.jpg)
 
@@ -89,6 +92,11 @@ dist/                    网页版应用（纯静态，可直接托管）
   sound.js               Web Audio 合成音效
   vendor/                three.js（随包分发）
   assets/                插画等静态素材
+
+windows/                 Windows 桌面版（Electron）
+  main.js                窗口、paperroom:// 协议、麦克风权限与外链处理
+  web-path.js            网址到文件的安全映射
+  smoke-test.cjs         桌面壳冒烟测试
 
 desktop/                 Apple Silicon 桌面版（Swift + WKWebView）
   main.swift             原生窗口与本地服务（仅绑定 127.0.0.1）

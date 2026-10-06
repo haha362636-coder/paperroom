@@ -1,0 +1,44 @@
+{
+  "name": "paperroom-windows",
+  "productName": "Paperroom",
+  "version": "1.1.0",
+  "private": true,
+  "description": "纸间 Paperroom · Windows 桌面版",
+  "author": "jj",
+  "license": "MIT",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "icon": "python3 build/make-icon.py",
+    "build": "npm run icon && electron-builder --win nsis --x64 --publish never"
+  },
+  "devDependencies": {
+    "electron": "44.5.1",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "xyz.nuoyannotebook.paperroom",
+    "productName": "Paperroom",
+    "copyright": "© 2026 jj · MIT",
+    "directories": { "output": "../releases/windows", "buildResources": "build" },
+    "files": ["main.js", "web-path.js", "package.json", "build/icon.ico"],
+    "extraResources": [{ "from": "../dist", "to": "web", "filter": ["**/*"] }],
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "icon": "build/icon.ico",
+      "artifactName": "Paperroom-${version}-windows-${arch}-setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "纸间 Paperroom",
+      "uninstallDisplayName": "纸间 Paperroom",
+      "installerLanguages": ["zh_CN"],
+      "language": "2052",
+      "deleteAppDataOnUninstall": false
+    }
+  }
+}
